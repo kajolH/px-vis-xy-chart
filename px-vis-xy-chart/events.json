@@ -1,0 +1,22 @@
+[
+  {
+    "id": "123",
+    "x": 2,
+    "label": "Recalibrate"
+  },
+  {
+    "id": "456",
+    "x": 3,
+    "label": "Fan start"
+  },
+  {
+    "id": "789",
+    "x": 4,
+    "label": "Fan stop"
+  },
+  {
+    "id": "333",
+    "x": 8,
+    "label": "Default"
+  }
+]
