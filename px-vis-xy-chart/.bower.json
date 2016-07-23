@@ -1,6 +1,6 @@
 {
   "name": "px-vis-xy-chart",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": [
     "px-vis-xy-chart.html"
   ],
@@ -23,17 +23,25 @@
     "iron-ajax": "PolymerElements/iron-ajax#~1.1.1",
     "px-demo-data": "~0.0.1",
     "px-layout-design": "~0.3.13",
-    "px-starter-kit-design": "~0.5.5"
+    "px-starter-kit-design": "#~0.5.4",
+    "px-forms-design": "#~0.3.15",
+    "px-tables-design": "#~0.3.12",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#~1.2.3",
+    "polymer-font-awesome": "~0.1.5",
+    "px-tabs": "~0.4.0",
+    "px-api-viewer": "~0.0.1",
+    "px-demo-snippet": "~0.0.1",
+    "px-list-inline-design": "^0.2.11"
   },
   "homepage": "https://github.com/PredixDev/px-vis-xy-chart",
-  "_release": "0.0.2",
+  "_release": "0.0.3",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.2",
-    "commit": "bbd56941c1ab085a286608486cef9bd2c06d6c78"
+    "tag": "v0.0.3",
+    "commit": "730213e306f2d30abddb09908a4c435059581233"
   },
   "_source": "https://github.com/PredixDev/px-vis-xy-chart.git",
-  "_target": "^0.0.2",
+  "_target": "^0.0.3",
   "_originalSource": "px-vis-xy-chart",
   "_direct": true
 }
