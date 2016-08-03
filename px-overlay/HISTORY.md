@@ -1,3 +1,11 @@
+v0.2.5
+==================
+* added mega demo, changed self to .bind in the component
+
+v0.2.4
+==================
+* added image to readme
+
 v0.2.3
 ==================
 * added vulcanize to the demo gh-pages
