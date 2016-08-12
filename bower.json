@@ -1,6 +1,6 @@
 {
   "name": "px-vis-xy-chart",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": [
     "px-vis-xy-chart.html"
   ],
@@ -43,7 +43,6 @@
     "px-dropdown": "^0.10.2"
   },
   "resolutions": {
-    "px-vis-xy-chart": "^0.0.8",
-    "px-clipboard": "^0.0.11"
+    "px-vis-xy-chart": "^0.0.9"
   }
 }

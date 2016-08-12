@@ -1,6 +1,6 @@
 {
   "name": "px-vis-xy-chart",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": [
     "px-vis-xy-chart.html"
   ],
@@ -43,14 +43,14 @@
     "px-dropdown": "^0.10.2"
   },
   "homepage": "https://github.com/PredixDev/px-vis-xy-chart",
-  "_release": "0.0.8",
+  "_release": "0.0.9",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.8",
-    "commit": "a89938a2be0997ed7bfb62154e4cd1154735715e"
+    "tag": "v0.0.9",
+    "commit": "67f95e7de5f14326fac6db0032da5297c12d44e6"
   },
   "_source": "https://github.com/PredixDev/px-vis-xy-chart.git",
-  "_target": "^0.0.8",
+  "_target": "^0.0.9",
   "_originalSource": "px-vis-xy-chart",
   "_direct": true
 }
