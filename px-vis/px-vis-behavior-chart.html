@@ -82,29 +82,10 @@ PxVisBehaviorChart.chartCommon = [{
       }
     },
 
-    listeners:{
-      'px-vis-svg-updated'              : '_updateLocalProperty',
-      'px-vis-data-updated'             : '_updateLocalProperty',
-      'px-vis-x-updated'                : '_updateLocalProperty',
-      'px-vis-y-updated'                : '_updateLocalProperty',
-      'px-vis-current-domain-x-updated' : '_updateLocalProperty',
-      'px-vis-current-domain-y-updated' : '_updateLocalProperty',
-      'px-vis-tooltip-updated'          : '_updateLocalProperty',
-      'px-vis-interaction-svg-updated'  : '_updateLocalProperty',
-      'px-vis-extents-data-updated'     : '_updateLocalProperty',
-      'px-vis-clip-path-updated'        : '_updateLocalProperty',
-      'px-vis-series-clip-path-updated' : '_updateLocalProperty',
-      'px-vis-svg-element-updated'      : '_updateLocalProperty',
-
-      'px-vis-muted-series-updated'     : '_updateGlobalProperty',
-      'px-vis-selected-domain-updated'  : '_updateGlobalProperty'
-
-    },
-
     observers: [
       '_setCompleteSeriesConfig(defaultSeriesConfig.*,chartData.*,seriesConfig.*)'
     ],
-
+    
     _calcChartExts: function(mins,maxes,axis){
       if(this[axis + 'AxisType'] === 'ordinal'){
         // how should someone set the ordinal list? Differet key in seriesConfig?
@@ -249,65 +230,6 @@ PxVisBehaviorChart.chartCommon = [{
     },
 
     /**
-     * Helper function that only calls _updateProperty if event originates from a child component of the chart.
-     *
-     * Events data packet must come in the form:
-     * ```
-     *  {
-     *    'dataVar': variableName,  //'chartData' or 'mutedSeries.myLineSeries'
-     *    'data': data,
-     *    'method':'set'  //any Polymer method: 'set','push', etc
-     *  }
-     *```
-     * @method _updateLocalProperty
-     * @param {event}
-     */
-    _updateLocalProperty: function(evt){
-      var detail = evt.detail;
-      var ne = Polymer.dom(evt);
-      if(ne.rootTarget.dataHost === this){
-        this._updateProperty(detail);
-      }
-    },
-    /**
-     * Helper function that always calls _updateProperty regardless of origin.
-     *
-     * Events data packet must come in the form:
-     * ```
-     *  {
-     *    'dataVar': variableName,  //'chartData' or 'mutedSeries.myLineSeries'
-     *    'data': data,
-     *    'method':'set'  //any Polymer method: 'set','push', etc
-     *  }
-     *```
-     * @method _updateGlobalProperty
-     * @param {event}
-     */
-    _updateGlobalProperty: function(evt){
-      var detail = evt.detail;
-      this._updateProperty(detail);
-    },
-    /**
-     * Generic variable updater. Triggered by events to support precipitation pattern.
-     *
-     * Events data packet must come in the form:
-     * ```
-     *  {
-     *    'dataVar': variableName,  //'chartData' or 'mutedSeries.myLineSeries'
-     *    'data': data,
-     *    'method':'set'  //any Polymer method: 'set','push', etc
-     *  }
-     *```
-     * @method _updateProperty
-     * @param {object}
-     */
-    _updateProperty: function(detail){
-      this[detail.method](detail.dataVar, detail.data);
-      if(detail.method !== 'set'){
-        this.notifyPath(detail.dataVar,detail.data);
-      }
-    },
-    /**
      * Helper function for the register. Returns true if the side register should exist
      *
      * @method _sideRegister
@@ -343,6 +265,173 @@ PxVisBehaviorChart.chartCommon = [{
     _returnKeys: function(obj){
       return Object.keys(obj);
     }
-
 }, commonColors, PxVisBehavior.commonMethods,PxVisBehavior.axisTypes];
+
+/*
+    Name:
+    PxVisBehaviorChart.saveImage
+
+    Description:
+    Polymer behavior that allows the chart to return an image of itself based on 
+    its canvas and/or SVG
+
+    @polymerBehavior PxVisBehaviorChart.saveImage
+*/
+PxVisBehaviorChart.saveImage = {
+    /**
+     * Takes a graphic "snapshot" of the component and pass results through a callback:
+     * - a canvas containing the graphical snapshot
+     * - a png base 64 data uri
+     * 
+     * callback object:
+     * {
+     *  canvas: theCanvasObject
+     *  image: "data:image/png;base64;iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACN..."
+     * }
+     * 
+     * the data uri can be used to save the image and the canvas object to do 
+     * further processing, such as combining different elements snapshot into one image
+     * 
+     */
+    getImage: function(callback) {
+      //create a new canvas to render both the canvas and svg elements on it
+      var canvas = document.createElement('canvas'),
+          context,
+          result,
+          svgData;
+      canvas.width = this.width;
+      canvas.height = this.height;
+      context = canvas.getContext('2d');
+
+      if(this.canvasContext) {
+        //draw current canvas on new canvas
+        context.drawImage(this.canvasContext.canvas, 0, 0);
+      }
+
+      if(this.pxSvgElem) {
+        this._drawSVGOnCanvas(canvas, function(resultCanvas) {
+          callback({canvas: resultCanvas, image: resultCanvas.toDataURL()});
+        });
+      }
+    }
+};
+/*
+    Name:
+    PxVisBehaviorChart.precipitationPattern
+
+    Description:
+    Polymer behavior that provides precipitation pattern listeners to set properties from the chart elements.
+
+    @polymerBehavior PxVisBehaviorChart.precipitationPattern
+*/
+PxVisBehaviorChart.precipitationPattern = {
+  properties: {
+  },
+
+  listeners:{
+    'px-vis-svg-updated'              : '_updateLocalProperty',
+    'px-vis-data-updated'             : '_updateLocalProperty',
+    'px-vis-x-updated'                : '_updateLocalProperty',
+    'px-vis-y-updated'                : '_updateLocalProperty',
+    'px-vis-current-domain-x-updated' : '_updateLocalProperty',
+    'px-vis-current-domain-y-updated' : '_updateLocalProperty',
+    'px-vis-tooltip-updated'          : '_updateLocalProperty',
+    'px-vis-interaction-svg-updated'  : '_updateLocalProperty',
+    'px-vis-extents-data-updated'     : '_updateLocalProperty',
+    'px-vis-clip-path-updated'        : '_updateLocalProperty',
+    'px-vis-series-clip-path-updated' : '_updateLocalProperty',
+    'px-vis-svg-element-updated'      : '_updateLocalProperty',
+    'px-vis-canvas-context-updated'   : '_updateGlobalProperty',
+
+    'px-vis-muted-series-updated'     : '_updateGlobalProperty',
+    'px-vis-selected-domain-updated'  : '_updateGlobalProperty'
+
+  },
+
+  /**
+   * Helper function that only calls _updateProperty if event originates from a child component of the chart.
+   *
+   * Events data packet must come in the form:
+   * ```
+   *  {
+   *    'dataVar': variableName,  //'chartData' or 'mutedSeries.myLineSeries'
+   *    'data': data,
+   *    'method':'set'  //any Polymer method: 'set','push', etc
+   *  }
+   *```
+   * @method _updateLocalProperty
+   * @param {event}
+   */
+  _updateLocalProperty: function(evt){
+    var detail = evt.detail;
+    var ne = Polymer.dom(evt);
+    //check that the event is fired from a child and not another decendant.
+    if(ne.rootTarget.dataHost === this){
+      this._updateProperty(detail);
+    }
+  },
+  /**
+   * Helper function that always calls _updateProperty regardless of origin.
+   *
+   * Events data packet must come in the form:
+   * ```
+   *  {
+   *    'dataVar': variableName,  //'chartData' or 'mutedSeries.myLineSeries'
+   *    'data': data,
+   *    'method':'set'  //any Polymer method: 'set','push', etc
+   *  }
+   *```
+   * @method _updateGlobalProperty
+   * @param {event}
+   */
+  _updateGlobalProperty: function(evt){
+    var detail = evt.detail;
+    this._updateProperty(detail);
+  },
+  /**
+   * Generic variable updater. Triggered by events to support precipitation pattern.
+   *
+   * Events data packet must come in the form:
+   * ```
+   *  {
+   *    'dataVar': variableName,  //'chartData' or 'mutedSeries.myLineSeries'
+   *    'data': data,
+   *    'method':'set'  //any Polymer method: 'set','push', etc
+   *  }
+   *```
+   * @method _updateProperty
+   * @param {object}
+   */
+  _updateProperty: function(detail){
+    this[detail.method](detail.dataVar, detail.data);
+    if(detail.method !== 'set'){
+      this.notifyPath(detail.dataVar,detail.data);
+    }
+  }
+
+};
+
+/**
+    Name:
+    PxVisBehaviorChart.chartAutoResize
+
+    Description:
+    Polymer behavior that provides auto resize options for charts
+
+    Dependencies:
+    - D3.js
+
+    @polymerBehavior PxVisBehaviorChart.chartAutoResize
+*/
+PxVisBehaviorChart.chartAutoResize = {
+    properties: {
+      /**
+      * Prevents the chart from automatically resizing to fit its container
+      */
+      preventResize: {
+        type: Boolean,
+        value: false
+      }
+    }
+};
 </script>

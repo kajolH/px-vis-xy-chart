@@ -1,3 +1,94 @@
+v0.1.21
+==================
+* Added preventResize option for chart auto resize. 
+* Added option to prevent progressive rendering for canvas (preventCanvasProgressiveRendering)
+* Make export to png dynamically choose between native and canvg (hence fixing it on edge)
+
+v0.1.20
+==================
+* Fix bug in empty navigator
+
+v0.1.19
+==================
+* Fixing color issue in pie
+
+v0.1.18
+==================
+* Adding support to export chart components to images
+
+v0.1.17
+==================
+* Fix missing type in px-vis-pie _arcs
+
+v0.1.16
+==================
+* Allow chart navigator to be used without data and/or driven by a "range" attribute
+
+v0.1.15
+==================
+* Fix racing conditions with rangepicker
+
+v0.1.14
+==================
+* Make sure rangepicker can be used in combination with time based charts
+
+v0.1.13
+==================
+* Fix brush and axis-brush for dynamic sizing
+
+v0.1.12
+==================
+* auto resize on chart navigator
+
+v0.1.11
+==================
+* bug fixes, progressive rendering for canvas
+
+v0.1.10
+==================
+* bug fix
+
+v0.1.9
+==================
+* Improving tests and bug fixes
+
+v0.1.8
+==================
+* Make auto resize work for multi axis/scale/brush
+
+v0.1.7
+==================
+* Added demo link to README
+
+v0.1.6
+==================
+* Improve data handling by pie slices, allow empty data as well
+
+v0.1.5
+==================
+* Added vulcanize index and demo
+
+v0.1.4
+==================
+* fixed navSeriesLimit in navigator
+
+v0.1.3
+==================
+* improve pie transitioning
+
+v0.1.2
+==================
+* Fixed line seriesID bug
+
+v0.1.1
+==================
+* Upgraded navigator to add precipitationPattern behavior
+
+v0.1.0
+==================
+* Added canvas support: canvas element and ability to render lines to canvas.
+* Added ability to gives lines a gradient opacity.
+
 v0.0.7
 ==================
 * Fix tooltip positioning
