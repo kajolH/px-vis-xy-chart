@@ -1,3 +1,7 @@
+v0.0.12
+==================
+* update to px-vis 2.0
+
 v0.0.11
 ==================
 * fixed demo page for IE

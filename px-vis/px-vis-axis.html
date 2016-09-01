@@ -48,6 +48,7 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
           PxVisBehavior.commonMethods,
           PxVisBehaviorD3.axisConfig,
           PxVisBehavior.truncating,
+          PxVisBehaviorD3.domainUpdate,
           commonColors
         ],
 
@@ -90,6 +91,7 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
            */
           displayedTitle: {
             type: String,
+            notify: true,
             value: ''
           },
           /**
@@ -107,12 +109,12 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
             value: false
           },
           /**
-           * A boolean specifying if the axis should be completely redrawn every time
+           * A boolean specifying if the axis title has been drawn
            *
            */
-          forceRefresh: {
+          titleDrawn: {
             type: Boolean,
-            value: false
+            value: null
           },
           /**
            * The series ID this axis refers to, used to look in the config
@@ -126,15 +128,22 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
           _currentUnits: {
             type: String,
             computed: '_computeUnits(appendUnitInTitle, completeSeriesConfig, title)'
+          },
+          /**
+           * A boolean specifying if the axis title should truncate if too long
+           *
+           */
+          titleTruncation: {
+            type: Boolean,
+            value: false
           }
         },
 
         observers: [
-          'drawElement(currentDomain,svg,axis,margin)',
-          // 'updateTicks(tickValues.*)',
-          'drawSeriesBars(completeSeriesConfig.*)',
+          'drawElement(domainChanged,svg,axis,margin,height)',
+          'drawSeriesBars(completeSeriesConfig.*, titleDrawn)',
           '_muteSeriesBars(mutedSeries.*)',
-          '_titleChanged(displayedTitle, _axisGroup, titleLocation)',
+          '_titleChanged(displayedTitle, _axisGroup, titleLocation.*)',
           '_truncateTitle(title, truncationLength, appendUnitInTitle, completeSeriesConfig)'
         ],
 
@@ -150,6 +159,15 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
             // alert parents that we are done drawing the axis
             this.fire("px-axis-done");
           }
+        },
+
+        detached: function(){
+          // this.svg.selectAll('g').each(function(d){
+          //   Px.d3.select(this).remove();
+          // });
+          // // this.svg.remove();
+          // this._axisGroup.remove();
+          // this._axisGroup = null;
         },
 
         /**
@@ -207,8 +225,8 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
          * @method drawElement
          */
         drawElement: function() {
-          this.debounce('drawAxis', function() {
-            if(this.svg.node()){
+        //  this.debounce('drawAxis', function() {
+            if(this.svg.node() && this.domainChanged !== null){
               this.defineAxis();
               // TODO unify my orientation checks
               // TODO suport top and right
@@ -222,31 +240,14 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
 
               // checks to see if the axis already exists. If not, create; if so, update
               if(!this._axisGroup) {
-                //beats me: sometimes the axis doesnt get removed from the last axis, so make sure it goes away
-                if(this.forceRefresh && this.svg.selectAll('g.axis').nodes().length > 0){
-                  console.log("Remove")
-                  this.svg.selectAll('g.axis').each(function(d){
-                    Px.d3.select(this).remove();
-                  });
-                }
                 this._buildAxis();
                 // alert parents that we are done drawing the axis
                 this.fire("px-axis-done");
               } else {
-                if(this.forceRefresh){
-                  this._axisGroup.remove();
-                  this._axisGroup = null;
-
-                  this.drawElement();
-                } else {
-                  // if we have tickValues, we'll update another way
-                  if(!this.tickValues || this.tickValues.length === 0){
-                    this._updateAxis();
-                  }
-                }
+                this._updateAxis();
               }
             }
-          }, 5);
+          // }, 5);
         },
         /**
          * builds axis
@@ -265,8 +266,6 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
 
           this._setLineStyles(this._axisGroup,'line,path');
           this._setLabelStyles(this._axisGroup);
-
-         // this.drawSeriesBars();
         },
         /**
          * Updates the axis
@@ -277,7 +276,6 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
           .attr("transform", "translate(" + this.translateAmt.join(',') + ")")
           .call(this._axis);
 
-         // this._setLineStyles(this._axisGroup,'line');
           this._setLabelStyles(this._axisGroup);
 
           // alert parents that we are done drawing the axis
@@ -416,14 +414,6 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
           }
 
         if(!this._titleGroup) {
-          //beats me: sometimes the axis doesnt get removed from the last axis, so make sure it goes away
-          if(this.forceRefresh && this.svg.selectAll('g.title-group').nodes().length > 0){
-            console.log("remove")
-            this.svg.selectAll('g.title-group').each(function(d){
-              Px.d3.select(this).remove();
-            });
-          }
-
           this._titleGroup = this.svg.append("g")
             .attr('class','title-group')
             .attr('for', this.axisId)
@@ -440,11 +430,6 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
             .attr('transform',"rotate(" + r + ")");
 
           } else {
-            if(this.forceRefresh){
-              this._titleGroup.remove();
-              this._titleGroup = null;
-              this.drawTitle()
-            } else {
               this.svg.select('g.title-group[for=' + this.axisId + ']')
                 .attr('transform',"translate(" + x + ',' + y + ")");
               this.svg.select('g.title-group[for=' + this.axisId + '] text')
@@ -452,8 +437,6 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
                 .style("text-anchor", anchor)
                 .text(this.displayedTitle)
                 .attr('transform',"rotate(" + r + ")");
-
-            }
           }
 
           // console.log(this._titleGroup)
@@ -481,7 +464,7 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
           //   .attr('transform',"rotate(" + r + ")");
 
           this._processTooltip();
-          this.drawSeriesBars();
+          this.set('titleDrawn', (this.titleDrawn === null) ? true : !this.titleDrawn);
         },
         /**
          * Draws the color bars for each series
@@ -489,7 +472,8 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
          * @method drawSeriesBars
          */
         drawSeriesBars:function() {
-          if(!this.preventSeriesBar && this._doesObjHaveValues(this.completeSeriesConfig) && this._axisGroup) {
+          if(!this.preventSeriesBar && this._doesObjHaveValues(this.completeSeriesConfig) && this._axisGroup && this.displayedTitle) {
+
             // FIXME do we need to move the title group based on how many series we have
             var keys = Object.keys(this.completeSeriesConfig),
                 kLen = keys.length,
@@ -544,25 +528,26 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
          * truncates the title label appropriately
          */
         _truncateTitle: function(title, truncationLength, appendUnitInTitle) {
-
           this.debounce('_truncateTitle', function() {
 
-            var oldTitle = this._truncatedTitle,
-                newTitle;
-
-            newTitle = this._truncateName(title, truncationLength) + this._currentUnits;
-
-            if(newTitle !== oldTitle) {
-              this.fire('px-vis-axis-displayed-title-changed', {displayedTitle: newTitle, title: this.title});
-            }
-
-            //return newTitle;
-            this.set('displayedTitle', newTitle);
+              var oldTitle = this.displayedTitle,
+                  newTitle;
+              if(this.titleTruncation){
+                newTitle = this._truncateName(title, truncationLength) + this._currentUnits;
+              } else {
+                newTitle = title;
+              }
+              if(newTitle !== oldTitle) {
+                this.fire('px-vis-axis-displayed-title-changed', {displayedTitle: newTitle, title: this.title, id: this.seriesId});
+                this.set('displayedTitle', newTitle);
+              }
            }, 5);
         },
         _titleChanged: function(displayedTitle) {
           this.debounce('drawTitle', function() {
+
             if(this._doesObjHaveValues(this._axisGroup) && this._axisGroup.node() !== null && this._axisGroup.node().ownerSVGElement !== null) {
+            // if(this._doesObjHaveValues(this._axisGroup) && this._axisGroup.node() !== null && this._axisGroup.node().ownerSVGElement !== null) {
               this.drawTitle();
             }
           }.bind(this), 5);
@@ -575,7 +560,7 @@ https://github.com/mbostock/d3/wiki/SVG-Axes
               containsTooltip = false,
               children = this._axisGroup.node().childNodes;
 
-          //can't use "contains" function on the node cause it's an SVG 
+          //can't use "contains" function on the node cause it's an SVG
           //element and IE doesn't support it
           for(var i=0; i<children.length; i++) {
             if(children === this.$.tooltip) {
