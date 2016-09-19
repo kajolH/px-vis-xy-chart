@@ -1,3 +1,31 @@
+v0.2.7
+==================
+* modified grid so it can remove itself on detach
+
+v0.2.6
+==================
+* added to data converter so it outputs a set of empty datasets
+
+v0.2.5
+==================
+* fixed maintaining axis brushes on data change
+
+v0.2.4
+==================
+* fixed title rotation when id has a .
+
+v0.2.3
+==================
+* added axis brush update on domainchange
+
+v0.2.2
+==================
+* fixed tests for safari 8
+
+v0.2.1
+==================
+* fixed tests
+
 v0.2.0
 ==================
 * Large refactor to deal with many timing issues and other bug fixes
