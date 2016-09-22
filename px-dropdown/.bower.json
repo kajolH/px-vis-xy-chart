@@ -50,6 +50,6 @@
     "commit": "acfd3b90eda603e2fc4fd6be1de69317cf826513"
   },
   "_source": "https://github.com/predixDev/px-dropdown.git",
-  "_target": "~0.10.0",
+  "_target": "^0.10.2",
   "_originalSource": "px-dropdown"
 }
