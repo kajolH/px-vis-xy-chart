@@ -1,3 +1,11 @@
+v0.1.2
+==================
+* use latest version of px-vis
+
+v0.1.1
+==================
+* Changed hideTooltip to showTooltip, tooltip is off by default. Fixed axis error
+
 v0.0.17
 ==================
 * Add bower resolution for tooltip

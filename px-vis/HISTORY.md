@@ -1,3 +1,43 @@
+v0.5.1
+==================
+* Fixed navigator line
+
+v0.5.0
+==================
+* Added support for radial charts (polar chart and radar chart)
+* Separated line into svg and canvas lines
+* Various bug fixes
+* Various new features
+* Improved demos
+
+v0.4.8
+==================
+* fixed vulcanized spelling mistake in ghp
+
+v0.4.7
+==================
+* removed extra demo link in the ghp script
+
+v0.4.6
+==================
+* adding polygit imports for codepen
+
+v0.4.5
+==================
+* adding check for Px.d3
+
+v0.4.3
+==================
+* fixing px-d3 issue
+
+v0.4.2
+==================
+* added check to parse JSON for configuration objects
+
+v0.4.0
+==================
+* Converted to Gulp
+
 v0.3.15
 ==================
 * fixed errors when muting all axes
