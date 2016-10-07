@@ -159,7 +159,7 @@ PxVisBehaviorChart.chartCommon = [{
           for(var j=0; j<defaultConfigProps.length; j++) {
             var property = defaultConfigProps[j];
 
-            if(!fullConfig[k[i]][property] && this.defaultSeriesConfig[property]) {
+            if(typeof fullConfig[k[i]][property] === 'undefined' && typeof this.defaultSeriesConfig[property] !== 'undefined') {
               fullConfig[k[i]][property] = this.defaultSeriesConfig[property];
             }
           }
@@ -482,25 +482,6 @@ PxVisBehaviorChart.subConfiguration = {
         element.set(key, config[key])
       }
     },
-};
-
-PxVisBehaviorChart.polarData = {
-  properties: {
-    /**
-     * whether the polar data should be interpreted clockwise or counter-clockwise
-     */
-    counterClockwise: {
-      type: Boolean,
-      value: false
-    },
-    /**
-     * Whether the angle data should be processed as degrees, as opposed to be processed as radians
-     */
-    useDegrees: {
-      type: Boolean,
-      value: false
-    }
-  }
 };
 
 PxVisBehaviorChart.timeFiltering = [{

@@ -1,6 +1,6 @@
 {
   "name": "px-vis",
-  "version": "0.5.6",
+  "version": "0.5.9",
   "main": [
     "px-vis.html"
   ],
@@ -51,11 +51,11 @@
     "px-polymer-font-awesome": "^0.1.9"
   },
   "homepage": "https://github.com/PredixDev/px-vis",
-  "_release": "0.5.6",
+  "_release": "0.5.9",
   "_resolution": {
     "type": "version",
-    "tag": "v0.5.6",
-    "commit": "56927ae3f3527df93f22fb3482048db3d0c9bf5b"
+    "tag": "v0.5.9",
+    "commit": "7829f6690fa2c6a7ad7a99301028f562f8d91d60"
   },
   "_source": "https://github.com/PredixDev/px-vis.git",
   "_target": "~0.5.0",
