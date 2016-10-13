@@ -1,6 +1,6 @@
 {
   "name": "px-vis-xy-chart",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": [
     "px-vis-xy-chart.html"
   ],
@@ -43,9 +43,11 @@
     "px-dropdown": "^0.12.2"
   },
   "resolutions": {
-    "px-typography-design": "^1.1.1",
-    "px-theme": "~1.1.2",
+    "px-functions-design": "~0.3.3",
     "px": "~1.4.3",
-    "iron-ajax": "~1.4.3"
+    "iron-ajax": "^1.4.3",
+    "px-theme": "^1.1.2",
+    "px-typography-design": "~1.1.1",
+    "px-vis-xy-chart": "^0.2.1"
   }
 }
