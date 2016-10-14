@@ -1,6 +1,6 @@
 {
   "name": "px-vis-xy-chart",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": [
     "px-vis-xy-chart.html"
   ],
@@ -20,7 +20,7 @@
   "dependencies": {
     "polymer": "^1.6.1",
     "px-theme": "~1.1.2",
-    "px-vis": "~0.5.0",
+    "px-vis": "~0.6.0",
     "iron-resizable-behavior": "^1.0.5"
   },
   "devDependencies": {
@@ -43,11 +43,9 @@
     "px-dropdown": "^0.12.2"
   },
   "resolutions": {
-    "px-functions-design": "~0.3.3",
+    "px-typography-design": "^1.1.0",
     "px": "~1.4.3",
-    "iron-ajax": "^1.4.3",
-    "px-theme": "^1.1.2",
-    "px-typography-design": "~1.1.1",
-    "px-vis-xy-chart": "^0.2.1"
+    "px-theme": "~1.1.2",
+    "iron-ajax": "~1.4.3"
   }
 }

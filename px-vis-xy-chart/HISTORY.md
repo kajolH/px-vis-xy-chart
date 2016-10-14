@@ -1,3 +1,7 @@
+v0.2.2
+==================
+* make sure addition/removal of series to seriesConfig are correctly processed
+
 v0.2.1
 ==================
 * Added math.max check to width and height
