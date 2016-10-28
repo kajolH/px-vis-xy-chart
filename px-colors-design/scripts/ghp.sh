@@ -49,13 +49,13 @@ bower install ${REPO_NAME} --force
 #optimize for production
 cd ${REPO_NAME} #go into the component folder
 npm install vulcanize
-vulcanize index.html -o index.vulacanized.html --inline-scripts --inline-css --strip-comments
+vulcanize index.html -o index.vulacanized.html --inline-scripts --inline-css
 yes | cp index.vulacanized.html index.html
 rm index.vulacanized.html
 cd ../ #remember to exit out of the component before you do any git stuff
 
 #do the git stuff
-git add .
+git add . -A
 git commit -m "rebuild github pages"
 eval `ssh-agent -s`
 #and cahnge permissions

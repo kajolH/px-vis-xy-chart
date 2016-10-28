@@ -1,3 +1,53 @@
+v0.6.17
+==================
+* make sure progressive rendering doesn't "break" the line between batches
+* ensure datasets with 5 or less points still render when progressive rendering is on
+
+v0.6.16
+==================
+* included includes polyfill for IE11
+
+v0.6.15
+==================
+* bug fix for radial scale
+* fixed useDegrees for line
+* misc other bug fixes
+* fixed register with 0 value
+* changes to README
+* bug fixes for brush to prevent negative values
+* added various truthy tests for 0 values throughout
+* fix for register with value = 0
+
+v0.6.14
+==================
+* fix registers for pie
+* moved forcedatetimedisplay to behavior
+* general bug fixes for register
+
+v0.6.13
+==================
+* added delaying chart draw until attached
+
+v0.6.12
+==================
+* added additional check to radial scale
+
+v0.6.11
+==================
+* changes for demo
+
+v0.6.10
+==================
+* make sure scatter removes on detached
+
+v0.6.9
+==================
+* ensure forceDateTimeDisplay works with new registers
+
+v0.6.8
+==================
+* fix typo that would break the navigator series drawing
+
 v0.6.7
 ==================
 * make sure addition/removal of series to seriesConfig are correctly processed

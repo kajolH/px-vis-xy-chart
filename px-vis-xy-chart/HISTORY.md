@@ -1,3 +1,15 @@
+v0.2.5
+==================
+* Update dependencies
+
+v0.2.4
+==================
+* restamp on scatter and lines dom-if
+
+v0.2.3
+==================
+* fix height resizing issue
+
 v0.2.2
 ==================
 * make sure addition/removal of series to seriesConfig are correctly processed

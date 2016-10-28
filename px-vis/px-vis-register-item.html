@@ -52,7 +52,7 @@ Element providing a series line items on the register for regular charts
         <div class="seriesData" name$="R{{item.name}}">
           <!-- if x axis is number format and show it -->
           <template is="dom-if" if="{{_isOfType(xAxisType, 'linear')}}">
-            <template is="dom-if" if="{{_returnVal(item, 'x')}}">
+            <template is="dom-if" if="{{_checkItem(_itemX)}}">
               <numbro-element
                 value="[[_itemX]]"
                 format="[[numberFormat]]"
@@ -61,29 +61,28 @@ Element providing a series line items on the register for regular charts
                 default-currency-format="[[numberFormatCurrency]]"
                 zero-format="[[numberFormatZero]]">
               </numbro-element>
-              <template is="dom-if" if="[[_itemX]]">
+              <template is="dom-if" if="[[_checkItem(_itemX)]]">
                 {{_xUnit}}
               </template>
-              <template is="dom-if" if="[[_itemX]]">
+              <template is="dom-if" if="[[_checkItem(_itemX)]]">
                 &nbsp;/&nbsp
               </template>
             </template>
           </template>
           <!-- if x axis is ordinal just display it -->
           <template is="dom-if" if="{{_isOfType(xAxisType, 'ordinal')}}">
-            x ordinal
             <span>[[_itemX]]</span>
-            <template is="dom-if" if="[[_itemX]]">
+            <template is="dom-if" if="[[_checkItem(_itemX)]]">
               {{_xUnit}}
             </template>
-            <template is="dom-if" if="[[_itemX]]">
+            <template is="dom-if" if="[[_checkItem(_itemX)]]">
               &nbsp;/&nbsp
             </template>
           </template>
           <!-- if x axis is time don't display it -->
           <!-- if y axis is number format and show it -->
             <template is="dom-if" if="{{_isOfType(yAxisType, 'linear')}}">
-              <template is="dom-if" if="{{_returnVal(item, 'y')}}">
+              <template is="dom-if" if="{{_checkItem(_itemY)}}">
                 <numbro-element
                   value="[[_itemY]]"
                   format="[[numberFormat]]"
@@ -98,7 +97,7 @@ Element providing a series line items on the register for regular charts
             <template is="dom-if" if="{{_isOfType(yAxisType, 'ordinal')}}">
               <span>[[_itemY]]</span>
             </template>
-            <template is="dom-if" if="[[_itemY]]">
+            <template is="dom-if" if="[[_checkItem(_itemY)]]">
               {{_yUnit}}
             </template>
           </div>
@@ -141,14 +140,14 @@ Element providing a series line items on the register for regular charts
        * calcs the value for x
        */
       _itemX: {
-        type: String,
+        type: Number,
         computed: '_computeItemX(item, completeSeriesConfig.*)'
       },
       /**
        * calcs the value of y
        */
       _itemY: {
-        type: String,
+        type: Number,
         computed: '_computeItemY(item, completeSeriesConfig.*)'
       }
     },
@@ -174,28 +173,34 @@ Element providing a series line items on the register for regular charts
      * returns the value for y
      */
     _computeItemY: function() {
-      return this._returnVal(this.item, 'y', '&nbsp;/&nbsp');
+      return this._returnVal(this.item, 'y');
     },
     /**
      * returns the value for x
      */
     _computeItemX: function() {
-      return this._returnVal(this.item, 'x', '&nbsp;/&nbsp');
+      return this._returnVal(this.item, 'x');
     },
 
     /**
      * returns the value in the tooltip data
      */
-    _returnVal: function(item, axis, separator) {
+    _returnVal: function(item, axis) {
       if(this.completeSeriesConfig[item.name]) {
         var key = (axis === 'x') ? this.completeSeriesConfig[item.name]['x'] : this.completeSeriesConfig[item.name]['y'];
-
         if(item.value && (item.value[key] || item.value[key] === 0)) {
-          return item.value[key] + (separator ? separator : '');
+          return item.value[key]
         }
       }
       return null;
     },
+
+    _checkItem: function(val) {
+      if(val || val === 0) {
+        return true;
+      }
+      return false;
+    }
 
   });
 </script>
