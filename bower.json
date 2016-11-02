@@ -1,6 +1,6 @@
 {
   "name": "px-vis-xy-chart",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "main": [
     "px-vis-xy-chart.html"
   ],
@@ -43,13 +43,13 @@
     "px-dropdown": "^0.12.2"
   },
   "resolutions": {
-    "px-defaults-design": "^0.3.0",
     "px-functions-design": "~1.0.0",
-    "px-iconography-design": "^0.3.1",
-    "px-theme": "^1.1.2",
-    "px-typography-design": "~1.1.1",
     "px": "~1.4.3",
-    "iron-ajax": "^1.4.3",
-    "px-actionable-text-icons-design": "^0.1.0"
+    "px-calendar-picker": "~0.5.0",
+    "iron-ajax": "~1.4.3",
+    "px-typography-design": "^1.1.1",
+    "px-theme": "^1.1.2",
+    "px-defaults-design": "~0.3.0",
+    "px-iconography-design": "^0.3.1"
   }
 }
