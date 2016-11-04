@@ -1,3 +1,29 @@
+v0.6.26
+==================
+* added check that actionArea box has a selection
+* fixed empty seriesKeys with backwards compatibility
+* set chartExtents on range change to fix resize
+* included radial definition in axis brush
+
+v0.6.25
+==================
+* removed extra {
+
+v0.6.24
+==================
+* fixed merge conflict
+
+v0.6.23
+==================
+* added check for chartData being undefined in chartCommon
+
+v0.6.22
+==================
+* fixed completeSeriesConfig generation for mins and maxes
+* added checks for d3 selection existance
+* changed clip path declaration
+* better fixed linePath/lineGroup not being defined on detach
+
 v0.6.21
 ==================
 * Added PxVisBehaviorChart.registerPositioning behavior to avoid code duplication
